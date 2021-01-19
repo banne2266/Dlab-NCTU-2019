@@ -81,15 +81,14 @@ module debounce(
     output reg btn_output
     );
     reg [31:0] timer = 0;
-    reg pre;
     always@(posedge clk)begin
-    if(timer < 1000000)
-        timer = timer + 1;
+    if(btn_input == 1)
+        timer <= timer + 1;
     else begin
-        if(pre == btn_input)
-            btn_output = btn_input;
-        pre = btn_input;
-        timer = 0;
+        timer <= 0;
+        btn_output = 0;
     end
+    if(timer == 1_000_000)
+        btn_output = 1;
     end
 endmodule
